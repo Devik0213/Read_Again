@@ -181,7 +181,9 @@ public class MainActivity extends AppCompatActivity {
             if (saveArticle(article)) {
                 articles.add(article);
                 adapter.notifyDataSetChanged();
-                Snackbar.make(findViewById(R.id.main), getString(R.string.succes, article.getTitle().substring(0, 10)), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                if (!TextUtils.isEmpty(article.getTitle())) {
+                    Snackbar.make(findViewById(R.id.main), getString(R.string.succes, article.getTitle()), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                }
                 return;
             }
             Toast.makeText(MainActivity.this, R.string.already_exist, Toast.LENGTH_SHORT).show();
