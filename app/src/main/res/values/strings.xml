@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">REAN\nAGAIN</string>
+    <string name="app_name">READ\nAGAIN</string>
     <string name="action_settings">Settings</string>
-    <string name="copy_from_clipboard">Copy Clipboard</string>
+    <string name="copy_from_clipboard">Paste from Clipboard</string>
     <string name="paste_url">Paste URL</string>
     <string name="ok">OK</string>
     <string name="succes" formatted="false">SUCCESS - %s</string>

@@ -20,6 +20,7 @@ public class MonitorClipService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -33,12 +34,17 @@ public class MonitorClipService extends Service {
                 ClipData clipData = clipboardManager.getPrimaryClip();
                 ClipData.Item item = clipData.getItemAt(0);
 
+                if (item == null || TextUtils.isEmpty(item.getText())) {
+                    return;
+                }
                 String url = item.getText().toString();
-                Log.e("URL : " , url);
+                Log.d("URL ___ " , url);
                 if (!TextUtils.isEmpty(url)) {
-                    NotificationHelper.showNotification(MonitorClipService.this , url);
+                    NotificationHelper.onClipboardChangeNotification(MonitorClipService.this , url);
                 }
             }
         });
     }
+
+
 }

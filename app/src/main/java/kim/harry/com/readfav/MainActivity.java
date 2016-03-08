@@ -38,6 +38,7 @@ import java.util.zip.Inflater;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import kim.harry.com.readfav.model.Article;
 
 public class MainActivity extends AppCompatActivity {
@@ -124,8 +125,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
+    }
 
-        RealmResults<Article> rArticles = realm.allObjects(Article.class);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RealmResults<Article> rArticles = realm.where(Article.class).findAllSorted("date", Sort.DESCENDING);
+        articles.clear();
         articles.addAll(rArticles);
         adapter.notifyDataSetChanged();
     }
@@ -134,42 +140,11 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(url)) {
             url = "http://www.naver.com";
         }
-        ProcessAsync processAsync = new ProcessAsync();
+        MainParseAsyncTask processAsync = new MainParseAsyncTask();
         processAsync.execute(url);
     }
 
-    class ProcessAsync extends AsyncTask<String, Void, Article> {
-
-        @Override
-        protected Article doInBackground(String... params) {
-            String url = params[0];
-            try {
-                org.jsoup.nodes.Document result = Jsoup.connect(url).get();
-                if (result == null) {
-                    return null;
-                }
-                String title = result.title();
-                if (title == null) {
-                    title = "No Title            ";
-                }
-                String content = result.select("meta[property=og:description]").attr("content");
-                if (content == null) {
-                    content = getString(R.string.no_ogtag_content);
-                }
-                String imageUrl = result.select("meta[property=og:image]").attr("content");
-                String articleUrl = result.location();
-                if (articleUrl == null) {
-                    articleUrl = url;
-                }
-                Article article = new Article(title, content, imageUrl, articleUrl);
-                return article;
-            } catch (IOException e) {
-                Log.d("TAG", e.toString());
-            } catch (Exception e){
-                return null;
-            }
-            return null;
-        }
+    public class MainParseAsyncTask extends ParseProcessAsync{
 
         @Override
         protected void onPostExecute(Article article) {
@@ -179,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (saveArticle(article)) {
-                articles.add(article);
+                articles.add(0,article);
                 adapter.notifyDataSetChanged();
                 if (!TextUtils.isEmpty(article.getTitle())) {
                     Snackbar.make(findViewById(R.id.main), getString(R.string.succes, article.getTitle()), Snackbar.LENGTH_SHORT).setAction("Action", null).show();
@@ -189,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, R.string.already_exist, Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public class CustomAdapter extends RecyclerView.Adapter<ArticleItemViewHolder> {
 
