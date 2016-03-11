@@ -9,8 +9,11 @@ import android.widget.Toast;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.util.Date;
 
+import io.realm.Realm;
 import kim.harry.com.readfav.model.Article;
+import kim.harry.com.readfav.model.Time;
 
 /**
  * Created by Naver on 16. 2. 24..
@@ -39,6 +42,7 @@ public class ParseProcessAsync extends AsyncTask<String, Void, Article> {
                 articleUrl = url;
             }
             Article article = new Article(title, content, imageUrl, articleUrl);
+//            article.setDate(new Date());
             return article;
         } catch (IOException e) {
             Log.d("TAG", e.toString());

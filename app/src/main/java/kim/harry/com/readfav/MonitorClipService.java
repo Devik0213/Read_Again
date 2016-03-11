@@ -7,16 +7,17 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.URLUtil;
 
 public class MonitorClipService extends Service {
     private ClipboardManager clipboardManager;
+    private ClipboardListener clipboardManagerListender;
 
     public MonitorClipService() {
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -25,26 +26,31 @@ public class MonitorClipService extends Service {
     public void onCreate() {
         super.onCreate();
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        clipboardManager.addPrimaryClipChangedListener(new ClipboardListener(){
+        clipboardManagerListender = new ClipboardListener() {
             @Override
             public void onPrimaryClipChanged() {
                 if (clipboardManager == null) {
-                    Log.e("URL : " ," error");
+                    Log.e("URL : ", " error");
                 }
                 ClipData clipData = clipboardManager.getPrimaryClip();
                 ClipData.Item item = clipData.getItemAt(0);
 
-                if (item == null || TextUtils.isEmpty(item.getText())) {
+                if (item == null || TextUtils.isEmpty(item.getText()) || !URLUtil.isNetworkUrl(String.valueOf(item.getText()))) {
                     return;
                 }
                 String url = item.getText().toString();
-                Log.d("URL ___ " , url);
+                Log.d("URL ___ ", url);
                 if (!TextUtils.isEmpty(url)) {
-                    NotificationHelper.onClipboardChangeNotification(MonitorClipService.this , url);
+                    NotificationHelper.onClipboardChangeNotification(MonitorClipService.this, url);
                 }
             }
-        });
+        };
+        clipboardManager.addPrimaryClipChangedListener(clipboardManagerListender);
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        clipboardManager.removePrimaryClipChangedListener(clipboardManagerListender);
+    }
 }

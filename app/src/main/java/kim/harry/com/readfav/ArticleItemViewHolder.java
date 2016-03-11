@@ -9,29 +9,20 @@ import android.widget.TextView;
 /**
  * Created by naver on 16. 1. 10..
  */
-public class ArticleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ArticleItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
     ImageView state;
     ImageView thumbnail;
     TextView title;
     TextView description;
-    private final Button otherBrowser;
     private ClickEventListener listener;
 
     public ArticleItemViewHolder(View itemView) {
         super(itemView);
         thumbnail = (ImageView) itemView.findViewById(R.id.article_tumbnail);
-        thumbnail.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                listener.onLongClick(v);
-                return true;
-            }
-        });
-        state = (ImageView) itemView.findViewById(R.id.article_state);
         title = (TextView) itemView.findViewById(R.id.article_title);
         description = (TextView) itemView.findViewById(R.id.article_decs);
-        otherBrowser = (Button) itemView.findViewById(R.id.article_out);
-        otherBrowser.setOnClickListener(this);
+        itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
 
     }
     public void setEventListener(ClickEventListener listener){
@@ -40,11 +31,13 @@ public class ArticleItemViewHolder extends RecyclerView.ViewHolder implements Vi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.article_out :
-                listener.onClick(v);
-                break;
-        }
+        listener.onClick(v);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        listener.onLongClick(v);
+        return true;
     }
 
     interface ClickEventListener {

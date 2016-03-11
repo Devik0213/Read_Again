@@ -11,22 +11,36 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by naver on 16. 1. 10..
  */
-public class Article extends RealmObject {
+public class Article extends RealmObject{
+    public static final String URL_FEILD_NAME = "url";
+    public static final String ARCHIVE_FEILD_NAME = "archive";
+    public static final String ALARM = "alarmDate";
     @PrimaryKey
     private String url;
     private String thumbnail;
     private String title;
     private String content;
-
+    private boolean archive = false;
     private boolean read = false;
-    private Date date = new Date();
+    private Date date;
+    private Date alarmDate;
 
-    public boolean isRead() {
-        return read;
+
+    public Date getAlarmDate() {
+        return alarmDate;
     }
 
-    public void setRead(boolean read) {
-        this.read = read;
+    public void setAlarmDate(Date alarmDate) {
+        this.alarmDate = alarmDate;
+    }
+
+
+    public boolean isArchive() {
+        return archive;
+    }
+
+    public void setArchive(boolean archive) {
+        this.archive = archive;
     }
 
     public Date getDate() {
@@ -37,9 +51,8 @@ public class Article extends RealmObject {
         this.date = date;
     }
 
-
     public Article(){
-
+        this.date = new Date();
     }
 
     public Article(String title, String content, String thumbnail, String url){
@@ -47,6 +60,9 @@ public class Article extends RealmObject {
         this.content = content;
         this.thumbnail = thumbnail;
         this.url = url;
+        this.read = false;
+        this.date = new Date();
+        this.alarmDate = null;
     }
 
     public String getTitle() {
@@ -81,4 +97,11 @@ public class Article extends RealmObject {
         this.url = url;
     }
 
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
 }
