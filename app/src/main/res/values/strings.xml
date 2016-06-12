@@ -11,7 +11,7 @@
     <string name="cancel">Cancel</string>
     <string name="alert_remove" formatted="false">Remove ? %s</string>
     <string name="remove" formatted="false">Remove</string>
-    <string name="alert_dialog_title" formatted="false">삭제/보관?</string>
+    <string name="alert_dialog_title" formatted="false">보관/공유/삭제</string>
     <!--<string name="alert_dialog_content" formatted="false">%s</string>-->
     <string name="recom_site" formatted="false" > 요즘 볼게없나?? (%d/%d) 가장 많이 방문한 \'%s\'는 어때?</string>
     <string name="no_aticle">요즘 좀 뜸한데요?</string>
@@ -20,4 +20,5 @@
     <string name="archive">보관</string>
     <string name="complete">저장 완료</string>
     <string name="go_to_main" formatted="false">보러가기! %s</string>
+    <string name="share">Share</string>
 </resources>

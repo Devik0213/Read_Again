@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "333933813508",
+    "firebase_url": "https://readagain-4294e.firebaseio.com",
+    "project_id": "readagain-4294e",
+    "storage_bucket": "readagain-4294e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333933813508:android:6053eadda93caa59",
+        "android_client_info": {
+          "package_name": "com.devik.readagain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333933813508-odsut02jka1o5qavqfjhccl3rtarqi5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE33-34wWcd-_4tpN8SA000U8sopHyih8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

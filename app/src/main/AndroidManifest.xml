@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kim.harry.com.readfav">
+    package="com.devik.readagain">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -9,7 +9,7 @@
     <application
         android:name=".ReadAgainApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_archive_white_48dp"
+        android:icon="@drawable/ic_archive_black_48dp"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -35,14 +35,14 @@
             android:name=".MonitorClipService"
             android:enabled="true"
             android:exported="true"/>
-        <service android:name=".AlarmRegisterService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="kim.harry.com.readfav.ACTION_PUSH" />
-            </intent-filter>
-            </service>
-        <service android:name=".AlarmHandleService"/>
+        <!--<service android:name=".AlarmRegisterService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.devik.readfav.ACTION_PUSH" />-->
+            <!--</intent-filter>-->
+            <!--</service>-->
+        <!--<service android:name=".AlarmHandleService"/>-->
 
     </application>
 

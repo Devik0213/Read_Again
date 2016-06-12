@@ -19,14 +19,6 @@
             android:scaleType="centerCrop"
             android:layout_height="wrap_content" />
 
-        <!--<Button-->
-            <!--android:id="@+id/article_out"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBottom="@id/article_tumbnail"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:background="@android:drawable/dialog_holo_light_frame"-->
-            <!--android:text="See" />-->
 
         <TextView
             android:id="@+id/article_title"
