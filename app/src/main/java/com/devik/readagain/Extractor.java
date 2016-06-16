@@ -1,11 +1,7 @@
 package com.devik.readagain;
 
-import android.net.Network;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.webkit.URLUtil;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +16,7 @@ public class Extractor {
         }
 
         StringBuffer sb = new StringBuffer();
-        String regex = "(http|https|ftp)://[^\\s^\\.]+(\\.[^\\s^\\.^\"^\']+)*";
+        String regex = "(https?):\\/\\/([^:\\/\\s]+)(:([^\\/]*))?((\\/[^\\s/\\/]+)*)?\\/([^#\\s\\?]*)(\\?([^#\\s]*))?(#(\\w*))?$";
 
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(text);

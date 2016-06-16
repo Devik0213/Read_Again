@@ -137,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ClipData clipData = clipboardManager.getPrimaryClip();
                 ClipData.Item item = clipData.getItemAt(0);
-                url = item.getText().toString();
+                url = Extractor.getUrl(item.getText().toString());
                 if (URLUtil.isNetworkUrl(url)) {
                     editText.getEditableText().clear();
                     editText.getEditableText().append(url);
                 } else {
-                    Toast.makeText(MainActivity.this, "invalid URL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "invalid URL : " + url , Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(final Article article) {
             super.onPostExecute(article);
             if (article == null) {
-                Toast.makeText(MainActivity.this, R.string.parsing_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(R.string.parsing_fail, "입력한 URL 에서 데이터를 제공하지않음"), Toast.LENGTH_SHORT).show();
                 return;
             }
             if (saveArticle(article)) {
@@ -304,12 +304,12 @@ public class MainActivity extends AppCompatActivity {
                         alertDialog.setNeutralButton(R.string.share, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ShareActionProvider shareActionProvider = new ShareActionProvider(MainActivity.this);
+//                                ShareActionProvider shareActionProvider = new ShareActionProvider(MainActivity.this);
                                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                shareIntent.setAction(Intent.ACTION_SEND);
-                                shareIntent.putExtra(Intent.EXTRA_TEXT, article.getTitle());
-                                shareIntent.putExtra(Intent.EXTRA_STREAM, article.getThumbnail());
-                                shareActionProvider.setShareIntent(shareIntent);
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, article.getTitle() + "\n" + article.getUrl());
+                                shareIntent.setType("text/plain");
+//                                shareIntent.putExtra(Intent.EXTRA_STREAM, article.getThumbnail());
+                                startActivity(Intent.createChooser(shareIntent, "공유할곳을 고르세요"));
                             }
                         });
                         alertDialog.setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
             String colorCode;
             Date now = new Date();
             int DEGREE = 5;
-            long diff = (now.getTime() - article.getDate().getTime()) / (1000 * 60); //시간단위로 구분.
+            long diff = (now.getTime() - article.getDate().getTime()) / (1000 * 60 * 60 * 24); //일 단위로 구분.
             Log.d("diff", String.valueOf(diff));
             if (diff < 1 * DEGREE) {
                 colorCode = "#000000";
@@ -383,7 +383,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-//        Article rArticle = realm.createObject(Article.class);
         realm.beginTransaction();
         realm.copyToRealm(article);
         realm.commitTransaction();

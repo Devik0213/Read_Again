@@ -15,6 +15,6 @@ public class SystemBootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         context.startService(new Intent(context, MonitorClipService.class));
-        context.startService(new Intent(context, AlarmRegisterService.class));
+//        context.startService(new Intent(context, AlarmRegisterService.class));
     }
 }
