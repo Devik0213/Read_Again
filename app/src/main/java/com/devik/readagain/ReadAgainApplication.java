@@ -25,6 +25,10 @@ public class ReadAgainApplication extends Application {
     }
 
     private void initDB() {
+        // Create a RealmConfiguration that saves the Realm file in the app's "files" directory.
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(realmConfig);
+
         // RealmConfiguration은 빌더 패턴에 의해 생성됩니다.
         // Realm 파일은 Context.getFilesDir()에 위치하면 이름은 "myrealm.realm"입니다.
 //        RealmConfiguration config = new RealmConfiguration.Builder(this)
@@ -34,13 +38,6 @@ public class ReadAgainApplication extends Application {
 //        // 설정을 사용합니다.
 //        Realm.setDefaultConfiguration(config);
 //        Realm realm = Realm.getDefaultInstance();
-    }
-
-    public static ReadAgainApplication getInstance() {
-        if (instance == null) {
-            instance = new ReadAgainApplication();
-        }
-        return instance;
     }
 
 //    public static int[] getFrequentlyTime(Context context, ActionType actionType) {

@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,11 +37,9 @@ import com.koushikdutta.ion.Ion;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -88,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         // Create the Realm configuration
 //        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
 //        // Open the Realm for the UI thread.
-        realm = Realm.getInstance(this);
+        FirebaseCrash.report(new UnSupportException("테스트"));
+        realm = Realm.getDefaultInstance();
         initUI();
     }
 //
@@ -162,12 +160,21 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    GridLayoutManager getGrid(){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        return gridLayoutManager;
+    }
+
+    LinearLayoutManager getLinear(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        return linearLayoutManager;
+
+    }
     private void initUI() {
         freqDomain = ((TextView) findViewById(R.id.freq_domain));
         recyclerView = ((RecyclerView) findViewById(R.id.recyclerview));
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(getGrid());
         adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
     }
@@ -211,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(url)) {
             url = "http://www.naver.com";
         }
+
         MainParseAsyncTask processAsync = new MainParseAsyncTask();
         processAsync.execute(url);
     }
@@ -270,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                     holder.thumbnail.setImageDrawable(getDrawable(R.drawable.notification_template_icon_bg));
                 }
                 holder.title.setText(article.getTitle());
-                holder.description.setText(article.getContent());
+                holder.description.setText(String.valueOf(article.getContent()));
                 int color = getTextColor(article);
                 holder.title.setTextColor(color);
                 holder.description.setTextColor(color);
@@ -386,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
         realm.beginTransaction();
         realm.copyToRealm(article);
         realm.commitTransaction();
+
         String domainUrl;
         try {
             domainUrl = getDomainName(article.getUrl());
@@ -436,7 +445,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         realm.beginTransaction();
-        rArticle.removeFromRealm();
+        rArticle.deleteFromRealm();
         realm.commitTransaction();
         articles.remove(position);
         adapter.notifyDataSetChanged();

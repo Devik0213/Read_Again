@@ -75,7 +75,7 @@ public class ParseIntentService extends IntentService {
         }
         Article article = new Article(title, content, imageUrl, articleUrl);
 
-        Realm realm = Realm.getInstance(this);
+        Realm realm = Realm.getDefaultInstance();
 
         Article exist = realm.where(Article.class).equalTo("url", article.getUrl()).findFirst();
         if (exist != null) {

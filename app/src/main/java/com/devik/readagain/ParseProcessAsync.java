@@ -6,6 +6,7 @@ import android.util.Log;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.devik.readagain.model.Article;
 
@@ -36,7 +37,7 @@ public class ParseProcessAsync extends AsyncTask<String, Void, Article> {
                 articleUrl = url;
             }
             Article article = new Article(title, content, imageUrl, articleUrl);
-//            article.setDate(new Date());
+            article.setDate(new Date());
             return article;
         } catch (IOException e) {
             Log.d("TAG", e.toString());

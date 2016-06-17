@@ -43,7 +43,6 @@ public class MonitorClipService extends Service {
                 }
                 String rawData = String.valueOf(item.getText());
                 String url = Extractor.getUrl(rawData);
-                Log.d("aaaa", url);
                 if (!TextUtils.isEmpty(url)) {
                     NotificationHelper.onClipboardChangeNotification(MonitorClipService.this, url);
                 }
