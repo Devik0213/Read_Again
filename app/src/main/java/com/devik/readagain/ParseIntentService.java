@@ -84,38 +84,38 @@ public class ParseIntentService extends IntentService {
         realm.beginTransaction();
         realm.copyToRealm(article);
         realm.commitTransaction();
-
-        Time time = new Time(ActionType.SAVE.ordinal(), new Date());
-        realm.beginTransaction();
-        realm.copyToRealm(time);
-        realm.commitTransaction();
-
-        String domainUrl;
-        try {
-            domainUrl = MainActivity.getDomainName(article.getUrl());
-        } catch (URISyntaxException e) {
-            Log.e("AAA", String.valueOf(e));
-            domainUrl = "www.naver.com";
-        }
-
-        realm.beginTransaction();
-        Domain domain = realm.where(Domain.class).equalTo(Domain.DOMAIN, domainUrl).findFirst();
-        if (domain == null) {
-            domain = new Domain();
-            domain.setName(article.getTitle());
-            domain.setDomain(domainUrl);
-            domain.setCount(1);
-            realm.copyToRealmOrUpdate(domain);
-            return;
-        }else{
-            int count = domain.getCount() + 1;
-            domain.setCount(count);
-        }
-        realm.commitTransaction();
-        RealmResults<Domain> domains = realm.where(Domain.class).findAll();
-        for (Domain domainss : domains) {
-            Log.d("DOMAIN " , String.valueOf(domainss.getCount()));
-        }
+//
+//        Time time = new Time(ActionType.SAVE.ordinal(), new Date());
+//        realm.beginTransaction();
+//        realm.copyToRealm(time);
+//        realm.commitTransaction();
+//
+//        String domainUrl;
+//        try {
+//            domainUrl = MainActivity.getDomainName(article.getUrl());
+//        } catch (URISyntaxException e) {
+//            Log.e("AAA", String.valueOf(e));
+//            domainUrl = "www.naver.com";
+//        }
+//
+//        realm.beginTransaction();
+//        Domain domain = realm.where(Domain.class).equalTo(Domain.DOMAIN, domainUrl).findFirst();
+//        if (domain == null) {
+//            domain = new Domain();
+//            domain.setName(article.getTitle());
+//            domain.setDomain(domainUrl);
+//            domain.setCount(1);
+//            realm.copyToRealmOrUpdate(domain);
+//            return;
+//        }else{
+//            int count = domain.getCount() + 1;
+//            domain.setCount(count);
+//        }
+//        realm.commitTransaction();
+//        RealmResults<Domain> domains = realm.where(Domain.class).findAll();
+//        for (Domain domainss : domains) {
+//            Log.d("DOMAIN " , String.valueOf(domainss.getCount()));
+//        }
         NotificationHelper.onParseCompleted(this, article);
     }
 }

@@ -134,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ClipData clipData = clipboardManager.getPrimaryClip();
+                if (clipData == null) {
+                    return;
+                }
                 ClipData.Item item = clipData.getItemAt(0);
                 url = Extractor.getUrl(item.getText().toString());
                 if (URLUtil.isNetworkUrl(url)) {

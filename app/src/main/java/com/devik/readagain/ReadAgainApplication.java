@@ -26,7 +26,7 @@ public class ReadAgainApplication extends Application {
 
     private void initDB() {
         // Create a RealmConfiguration that saves the Realm file in the app's "files" directory.
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfig);
 
         // RealmConfiguration은 빌더 패턴에 의해 생성됩니다.

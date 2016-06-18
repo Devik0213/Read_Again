@@ -14,25 +14,20 @@ import com.devik.readagain.model.Article;
  * Created by Naver on 16. 2. 24..
  */
 public class NotificationHelper {
-    public static final int notificationId = 0x383838;
+    public static final int notificationId = 303030;
     private static final String ACTION_PARSE = "com.readAgain.ACTION_PARSE";
     public static final String EXTRA_PARSE_URL = "extra_parse_url";
     private static final String ACTION_LAUNCH = "com.readAgain.ACTION_LAUNCH";
 
-    static void onClipboardChangeNotification(Context context, String url){
+    static void onClipboardChangeNotification(Context context, String validUrl){
         Intent parseIntent = new Intent(context, ParseIntentService.class);
-        parseIntent.putExtra(EXTRA_PARSE_URL, url);
-        final long requestCode = (int) System.currentTimeMillis();
+        parseIntent.putExtra(EXTRA_PARSE_URL, validUrl);
+        final long requestCode = notificationId;
         PendingIntent pendingIntent = PendingIntent.getService(context, (int) requestCode, parseIntent, PendingIntent.FLAG_ONE_SHOT);
         //32짜리로 만들어야함.
         NotificationCompat.Action parseAction = new NotificationCompat.Action(R.drawable.ic_move_to_inbox_black_48dp, context.getString(R.string.save), pendingIntent);
-
-        if (!URLUtil.isNetworkUrl(url)) {
-            return;
-        }
-
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-        notificationBuilder.setContentTitle("이거 저장 해둘까?").setContentText(url);
+        notificationBuilder.setContentTitle("이거 저장 해둘까?").setContentText(validUrl);
         notificationBuilder.setSmallIcon(R.drawable.ic_move_to_inbox_black_48dp);
         notificationBuilder.setWhen(System.currentTimeMillis());
         notificationBuilder.addAction(parseAction);
