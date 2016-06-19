@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         archiveSort ^= true;
-        invalidateOptionsMenu();
+        Toast.makeText(this, getText(archiveSort ? R.string.archive : R.string.basic) + "모드", Toast.LENGTH_SHORT).show();
         refreshData();
         return super.onOptionsItemSelected(item);
     }
@@ -315,12 +315,10 @@ public class MainActivity extends AppCompatActivity {
                         alertDialog.setNeutralButton(R.string.share, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                ShareActionProvider shareActionProvider = new ShareActionProvider(MainActivity.this);
                                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                 shareIntent.putExtra(Intent.EXTRA_TEXT, article.getTitle() + "\n" + article.getUrl());
                                 shareIntent.setType("text/plain");
-//                                shareIntent.putExtra(Intent.EXTRA_STREAM, article.getThumbnail());
-                                startActivity(Intent.createChooser(shareIntent, "공유할곳을 고르세요"));
+                                startActivity(Intent.createChooser(shareIntent, "공유할 App 을 고르세요"));
                             }
                         });
                         alertDialog.setNegativeButton(R.string.remove, new DialogInterface.OnClickListener() {
@@ -346,18 +344,17 @@ public class MainActivity extends AppCompatActivity {
         private int getTextColor(Article article) {
             String colorCode;
             Date now = new Date();
-            int DEGREE = 5;
-            long diff = (now.getTime() - article.getDate().getTime()) / (1000 * 60 * 60 * 24); //일 단위로 구분.
-            Log.d("diff", String.valueOf(diff));
-            if (diff < 1 * DEGREE) {
+            long dayAgo = (now.getTime() - article.getDate().getTime()) / (1000 * 60 * 60 * 24); //일 단위로 구분.
+            Log.d("diff", String.valueOf(dayAgo));
+            if (dayAgo < 1) {
                 colorCode = "#000000";
-            } else if (diff < 2 * DEGREE) {
+            } else if (dayAgo < 2) {
                 colorCode = "#333333";
-            } else if (diff < 3 * DEGREE) {
+            } else if (dayAgo < 3) {
                 colorCode = "#666666";
-            } else if (diff < 4 * DEGREE) {
+            } else if (dayAgo < 4) {
                 colorCode = "#999999";
-            } else if (diff < 5 * DEGREE) {
+            } else if (dayAgo < 5) {
                 colorCode = "#AAAAAA";
             } else {
                 colorCode = "#EEEEEE";

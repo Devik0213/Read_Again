@@ -18,6 +18,7 @@
     <string name="save">저장</string>
     <string name="recovery">복구</string>
     <string name="archive">보관</string>
+    <string name="basic">기본</string>
     <string name="complete">저장 완료</string>
     <string name="go_to_main" formatted="false">보러가기! %s</string>
     <string name="share">Share</string>
